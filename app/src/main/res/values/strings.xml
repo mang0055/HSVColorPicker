@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">HSVColorPicker</string>
+    <string name="action_about">About</string>
+    <string name="author">Raviraj Mangukiya (mang0055)</string>
+    <string name="hue">Hue %1s </string>
+    <string name="saturation">Saturation %1s </string>
+    <string name="value_brightness">Value / Lightness %1s</string>
+
+</resources>
