@@ -22,7 +22,7 @@ import modal.HSVModel;
  *
  * @author Raviraj Mangykiya (mang0055@algonquinlive.com)
  */
-public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener, Observer {
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener, Observer, View.OnLongClickListener {
     private AboutDialogFragment mAboutDialog;
     private static final String ABOUT_DIALOG_TAG = "About";
     private static final String LOG_TAG = "HSV";
@@ -43,14 +43,15 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         // Instantiate a new HSV model
         // Initialize the model hue (max), saturation (max), brightness (max)
         mModel = new HSVModel();
-        mModel.setHue(HSVModel.MAX_HUE);
-        mModel.setSaturation(HSVModel.MAX_SATURATION);
-        mModel.setValue(HSVModel.MAX_LIGHTNESS);
+        mModel.setHue(HSVModel.MIN_HUE);
+        mModel.setSaturation(HSVModel.MIN_SATURATION);
+        mModel.setValue(HSVModel.MIN_LIGHTNESS);
 
         mModel.addObserver(this);
 
         //Bind View elements
         mColorSwatch = (TextView) findViewById(R.id.colorSwatch);
+        mColorSwatch.setOnLongClickListener(this);
         lblHue = (TextView) findViewById(R.id.hue);
         mHueSB = (SeekBar) findViewById(R.id.hueSB);
         lblSaturation = (TextView) findViewById(R.id.saturation);
@@ -193,8 +194,13 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             case R.id.navyButton:
                 mModel.asNavy();
                 break;
-
         }
+        showToast();
+
+    }
+
+    private void showToast() {
+        Toast.makeText(getApplicationContext(), "H: " + mModel.getHue().intValue() + "° S: " + mModel.getSaturation().intValue() + "% V: " + mModel.getValue().intValue() + "%", Toast.LENGTH_SHORT).show();
     }
 
     public void updateView() {
@@ -228,5 +234,15 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 Toast.makeText(this, "MenuItem: " + item.getTitle(), Toast.LENGTH_LONG).show();
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()){
+            case R.id.colorSwatch:
+                showToast();
+                break;
+        }
+        return false;
     }
 }
